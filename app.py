@@ -212,6 +212,13 @@ def latest_export(request:Request):
 def export_info(request_id:int,request:Request):
     auth_guard(request);d=tiktok(conn(),"POST","/v2/user/data/check/",params={"fields":"request_id,status,apply_time,collect_time,data_format,category_selection_list"},json={"request_id":request_id}).json();return {"request_id":request_id,"status":d,"download_endpoint":"/api/data/download"}
 
+@app.get("/tiktok0zAFrho1sGHlkH92hWMuXOz5kQu0oojp.txt")
+def tiktok_site_verification_new():
+    return StreamingResponse(
+        io.BytesIO(b"tiktok-developers-site-verification=0zAFrho1sGHlkH92hWMuXOz5kQu0oojp"),
+        media_type="text/plain",
+    )
+
 @app.get("/tiktokwhMmGbrtd3Zbv1qNf6KV6Ol5yNGGda75.txt")
 def tiktok_site_verification():
     return StreamingResponse(
