@@ -171,7 +171,9 @@ def data_request(body:DataRequestIn,request:Request):
     if not scopes.intersection(needed):raise HTTPException(403,detail={"error":"scope_not_authorized","required_any":sorted(needed),"authorized_scopes":sorted(scopes)})
     d=tiktok(c,"POST","/v2/user/data/add/",params={"fields":"request_id"},json={"data_format":body.data_format,"category_selection_list":cats}).json();rid=d.get("data",{}).get("request_id")
     if rid:
-        with Session() as db:db.add(DataRequest(request_id=rid,category=",".join(cats),data_format=body.data_format,status="REQUESTED",created_at=now());db.commit()
+        with Session() as db:
+            db.add(DataRequest(request_id=rid,category=",".join(cats),data_format=body.data_format,status="REQUESTED",created_at=now()))
+            db.commit()
     return d
 @app.get("/api/data")
 def data_root(request:Request):
