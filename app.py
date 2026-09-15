@@ -199,3 +199,10 @@ def latest_export(request:Request):
 @app.get("/api/export/{request_id}")
 def export_info(request_id:int,request:Request):
     auth_guard(request);d=tiktok(conn(),"POST","/v2/user/data/check/",params={"fields":"request_id,status,apply_time,collect_time,data_format,category_selection_list"},json={"request_id":request_id}).json();return {"request_id":request_id,"status":d,"download_endpoint":"/api/data/download"}
+
+@app.get("/tiktokwhMmGbrtd3Zbv1qNf6KV6Ol5yNGGda75.txt")
+def tiktok_site_verification():
+    return StreamingResponse(
+        io.BytesIO(b"tiktok-developers-site-verification=whMmGbrtd3Zbv1qNf6KV6Ol5yNGGda75"),
+        media_type="text/plain",
+    )
