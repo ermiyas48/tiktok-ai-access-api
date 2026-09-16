@@ -225,3 +225,19 @@ def tiktok_site_verification():
         io.BytesIO(b"tiktok-developers-site-verification=whMmGbrtd3Zbv1qNf6KV6Ol5yNGGda75"),
         media_type="text/plain",
     )
+
+
+# TikTok URL-prefix verification endpoints for the Terms and Privacy subpaths.
+@app.get("/terms/tiktokrOUGn1wdCXe1BCKoVJef3pxR8lI0TQgQ.txt")
+def tiktok_terms_verification():
+    return StreamingResponse(
+        io.BytesIO(b"tiktok-developers-site-verification=rOUGn1wdCXe1BCKoVJef3pxR8lI0TQgQ"),
+        media_type="text/plain",
+    )
+
+@app.get("/privacy/tiktokCp2As1I5xHSeVQgdQSimQl5GuOOnqft8.txt")
+def tiktok_privacy_verification():
+    return StreamingResponse(
+        io.BytesIO(b"tiktok-developers-site-verification=Cp2As1I5xHSeVQgdQSimQl5GuOOnqft8"),
+        media_type="text/plain",
+    )
