@@ -49,6 +49,12 @@ Base.metadata.create_all(engine)
 
 app=FastAPI(title="TikTok AI Access API",version="1.0.0",docs_url="/api/docs",redoc_url="/api/redoc",openapi_url="/openapi.json")
 
+@app.middleware("http")
+async def block_destructive_methods(request:Request, call_next):
+    if request.method == "DELETE":
+        return JSONResponse({"error":"disabled_action","action":"delete","message":"DELETE operations are disabled for agent safety."}, status_code=405, headers={"Allow":"GET,POST,HEAD,OPTIONS"})
+    return await call_next(request)
+
 class PostRequest(BaseModel):
     video_url:str
     title:str=""
@@ -216,8 +222,9 @@ def data_status(body:RequestIdIn,request:Request):
     if st:
         with Session() as db:row=db.query(DataRequest).filter_by(request_id=body.request_id).first();row.status=st if row else st;db.commit() if row else None
     return d
-@app.post("/api/data/cancel")
+@app.post("/api/data/cancel", responses={403:{"description":"Disabled for agent safety; data-request cancellation is never exposed."}})
 def data_cancel(body:RequestIdIn,request:Request):
+    """Intentionally disabled. Agents cannot cancel TikTok data requests."""
     auth_guard(request)
     raise HTTPException(403,detail={"error":"disabled_action","action":"cancel_data_request","message":"Data-request cancellation is intentionally disabled for agent safety."})
 @app.post("/api/data/download")
